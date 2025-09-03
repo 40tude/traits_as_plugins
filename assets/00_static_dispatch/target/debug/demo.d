@@ -1,0 +1,1 @@
+C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\00_static_dispatch\target\debug\demo.exe: C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\00_static_dispatch\src\main.rs

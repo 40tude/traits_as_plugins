@@ -1,0 +1,1 @@
+C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\03_blanket_implementation\target\debug\demo.exe: C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\03_blanket_implementation\src\main.rs
