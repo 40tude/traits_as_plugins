@@ -1,1 +1,0 @@
-C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\02_default_traits\target\debug\demo.exe: C:\Users\phili\OneDrive\Documents\Programmation\rust\01_xp\021_traits_as_plugins\assets\02_default_traits\src\main.rs
