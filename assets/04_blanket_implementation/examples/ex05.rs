@@ -1,58 +1,79 @@
 // ex05
 // cargo run --example ex05
 
+// newtype pattern II
+// We print with:  println!("{}", as_display(&my_sensor));
+
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
-// Trait that all sensors must implement
-#[allow(dead_code)]
-trait TempSensor: Display {
+pub trait Measurable {
     fn get_temp(&self) -> f64;
 }
 
-// DegreeSensor implementation
-struct DegreeSensor {
-    value: f64,
+pub trait Identifiable {
+    fn get_id(&self) -> String;
 }
 
-impl TempSensor for DegreeSensor {
+struct TempSensor01 {
+    temp: f64,
+    id: String,
+}
+
+impl Measurable for TempSensor01 {
     fn get_temp(&self) -> f64 {
-        self.value
+        self.temp
     }
 }
 
-impl Display for DegreeSensor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
-        write!(f, "{:.2} °C", self.value)
+impl Identifiable for TempSensor01 {
+    fn get_id(&self) -> String {
+        self.id.clone()
     }
 }
 
-// FahrenheitSensor implementation
-struct FahrenheitSensor {
-    value: f64,
+struct TempSensor02 {
+    temp: f64,
+    id: String,
 }
 
-impl TempSensor for FahrenheitSensor {
+impl Measurable for TempSensor02 {
     fn get_temp(&self) -> f64 {
-        self.value
+        self.temp
     }
 }
 
-impl Display for FahrenheitSensor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
-        write!(f, "{:.2} °F", self.value)
+impl Identifiable for TempSensor02 {
+    fn get_id(&self) -> String {
+        "TempSensor02 - ".to_owned() + &self.id
     }
+}
+
+/// Local wrapper (newtype) that you own.
+/// This lets you implement foreign traits (like Display) safely.
+struct AsDisplay<'a, T: Measurable + Identifiable>(&'a T);
+
+/// Implement Display for the local wrapper, not for T directly.
+/// This is allowed by the orphan rules.
+impl<'a, T> Display for AsDisplay<'a, T>
+where
+    T: Measurable + Identifiable,
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        // Use trait methods. We don't know concrete fields of T
+        write!(f, "id={}, temp={}", self.0.get_id(), self.0.get_temp())
+    }
+}
+
+/// Convenience function to build the wrapper without naming the type at call site.
+fn as_display<T: Measurable + Identifiable>(t: &T) -> AsDisplay<'_, T> {
+    AsDisplay(t)
 }
 
 fn main() {
-    // Heterogeneous collection: Box<dyn TempSensor>
-    let sensors: Vec<Box<dyn TempSensor>> = vec![
-        Box::new(DegreeSensor { value: 22.0 }),
-        Box::new(FahrenheitSensor { value: 75.0 }),
-        Box::new(DegreeSensor { value: 19.5 }),
-    ];
+    let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
+    let sensor2 = TempSensor02 { temp: 200.0, id: "Roberta".into() };
 
-    for sensor in sensors {
-        // Works because TempSensor requires Display
-        println!("{:}", sensor);
-    }
+    // as_display looks polymorphic but no, there are 2 monomorphized implementations created at compile time
+    println!("{}", as_display(&sensor1));
+    println!("{}", as_display(&sensor2));
 }

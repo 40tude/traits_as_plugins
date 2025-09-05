@@ -11,18 +11,18 @@ pub trait Identifiable {
     fn get_id(&self) -> String;
 }
 
-struct TempSensor100 {
+struct TempSensor01 {
     temp: f64,
     id: String,
 }
 
-impl Measurable for TempSensor100 {
+impl Measurable for TempSensor01 {
     fn get_temp(&self) -> f64 {
         self.temp
     }
 }
 
-impl Identifiable for TempSensor100 {
+impl Identifiable for TempSensor01 {
     fn get_id(&self) -> String {
         self.id.clone()
     }
@@ -44,8 +44,8 @@ where
 }
 
 fn main() {
-    let sensor100 = TempSensor100 { temp: 100.0, id: "Zoubida".into() };
-    println!("{}", sensor100);
+    let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
+    println!("{}", sensor1);
 }
 
 // println!("{}", sensor100.get_id());
@@ -61,7 +61,7 @@ fn main() {
 
 // impl<T> Printable for T where T: Display + Measurable + Identifiable { ... } is a blanket implementation.
 // At compile time, Rust monomorphizes this “template” for each concrete type that satisfies these bounds.
-// So if TempSensor100 implements Display, Measurable, Identifiable, it gets the Printable impl for free, and sensor100.print() compiles and works.
+// So if TempSensor01 implements Display, Measurable, Identifiable, it gets the Printable impl for free, and sensor100.print() compiles and works.
 // The “everything you need” checks (bounds) are done at compile time → no runtime cost, no surprises.
 // Two useful mini-details to keep in mind:
 // This works thanks to orphan/coherence rules: you can blanket-implement your trait for “foreign” types, but not a ‘foreign’ trait for a “foreign” type.
@@ -81,8 +81,8 @@ fn main() {
 // }
 
 // Implement Display so it can be used in the blanket implementation
-// impl std::fmt::Display for TempSensor100 {
+// impl std::fmt::Display for TempSensor01 {
 //     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         write!(f, "TempSensor100(id={}, temp={})", self.id, self.temp)
+//         write!(f, "TempSensor01(id={}, temp={})", self.id, self.temp)
 //     }
 // }

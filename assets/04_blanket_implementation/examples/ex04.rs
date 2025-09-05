@@ -1,8 +1,8 @@
 // ex04
 // cargo run --example ex04
 
-// newtype pattern
-// We print via println!("{}", as_display(&my_sensor));
+// newtype pattern I
+// We print with : println!("{}", AsDisplay(&sensor1));
 
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
@@ -14,47 +14,38 @@ pub trait Identifiable {
     fn get_id(&self) -> String;
 }
 
-struct TempSensor100 {
+struct TempSensor01 {
     temp: f64,
     id: String,
 }
 
-impl Measurable for TempSensor100 {
+impl Measurable for TempSensor01 {
     fn get_temp(&self) -> f64 {
         self.temp
     }
 }
 
-impl Identifiable for TempSensor100 {
+impl Identifiable for TempSensor01 {
     fn get_id(&self) -> String {
         self.id.clone()
     }
 }
 
-struct TempSensor200 {
-    temp: f64,
-    id: String,
-}
+// Local wrapper (newtype) that we own.
+// This lets us implement foreign traits (like Display) safely.
+// Our wrapper stores a reference (&T).
+// Any struct that contains a reference must name the lifetime of that reference.
+// Lifetime elision works in function signatures but not in struct definitions, so the compiler forces us to add one.
+// struct AsDisplay<T>( &T ); says: “I contain a borrowed T,” but we didn’t say how long that borrow must live.
+// Hence E0106: missing lifetime specifier and the helpful suggestion to introduce '<a>.
 
-impl Measurable for TempSensor200 {
-    fn get_temp(&self) -> f64 {
-        self.temp
-    }
-}
-
-impl Identifiable for TempSensor200 {
-    fn get_id(&self) -> String {
-        "TempSensor200 - ".to_owned() + &self.id
-    }
-}
-
-/// Local wrapper (newtype) that you own.
-/// This lets you implement foreign traits (like Display) safely.
+// struct AsDisplay<T: Measurable + Identifiable>(&T);
 struct AsDisplay<'a, T: Measurable + Identifiable>(&'a T);
 
 /// Implement Display for the local wrapper, not for T directly.
 /// This is allowed by the orphan rules.
-impl<'a, T> Display for AsDisplay<'a, T>
+// '_ : indicates an anonymous lifetime
+impl<T> Display for AsDisplay<'_, T>
 where
     T: Measurable + Identifiable,
 {
@@ -64,16 +55,7 @@ where
     }
 }
 
-/// Convenience function to build the wrapper without naming the type at call site.
-fn as_display<T: Measurable + Identifiable>(t: &T) -> AsDisplay<'_, T> {
-    AsDisplay(t)
-}
-
 fn main() {
-    let sensor100 = TempSensor100 { temp: 100.0, id: "Zoubida".into() };
-    let sensor200 = TempSensor200 { temp: 200.0, id: "Roberta".into() };
-
-    // as_display looks polymorphic but no, there are 2 monomorphized implementations created at compile time
-    println!("{}", as_display(&sensor100));
-    println!("{}", as_display(&sensor200));
+    let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
+    println!("{}", AsDisplay(&sensor1));
 }

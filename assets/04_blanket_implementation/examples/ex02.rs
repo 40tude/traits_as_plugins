@@ -1,7 +1,8 @@
 // ex02
 // cargo run --example ex02
 
-// We print with println!("{}", sensor100.pretty());
+// We print with : println!("{}", sensor100.pretty());
+// .pretty() returns a formatted string to be printed by someone else
 
 pub trait Measurable {
     fn get_temp(&self) -> f64;
@@ -11,37 +12,37 @@ pub trait Identifiable {
     fn get_id(&self) -> String;
 }
 
-struct TempSensor100 {
+struct TempSensor01 {
     temp: f64,
     id: String,
 }
 
-impl Measurable for TempSensor100 {
+impl Measurable for TempSensor01 {
     fn get_temp(&self) -> f64 {
         self.temp
     }
 }
 
-impl Identifiable for TempSensor100 {
+impl Identifiable for TempSensor01 {
     fn get_id(&self) -> String {
         self.id.clone()
     }
 }
 
-struct TempSensor200 {
+struct TempSensor02 {
     temp: f64,
     id: String,
 }
 
-impl Measurable for TempSensor200 {
+impl Measurable for TempSensor02 {
     fn get_temp(&self) -> f64 {
         self.temp
     }
 }
 
-impl Identifiable for TempSensor200 {
+impl Identifiable for TempSensor02 {
     fn get_id(&self) -> String {
-        "TempSensor200 - ".to_owned() + &self.id
+        "TempSensor02 - ".to_owned() + &self.id
     }
 }
 
@@ -60,9 +61,9 @@ where
 }
 
 fn main() {
-    let sensor100 = TempSensor100 { temp: 100.0, id: "Zoubida".into() };
-    let sensor200 = TempSensor200 { temp: 200.0, id: "Roberta".into() };
+    let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
+    let sensor2 = TempSensor02 { temp: 200.0, id: "Roberta".into() };
 
-    println!("{}", sensor100.pretty());
-    println!("{}", sensor200.pretty());
+    println!("{}", sensor1.pretty());
+    println!("{}", sensor2.pretty());
 }

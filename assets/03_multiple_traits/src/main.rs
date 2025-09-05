@@ -27,7 +27,7 @@ impl Measurable for TempSensor01 {
     }
 }
 
-// Uses the default implementation = an empty method
+// Uses the default implementation
 impl Identifiable for TempSensor01 {}
 
 #[allow(dead_code)]
@@ -52,7 +52,7 @@ struct TempSensor3 {
 impl Measurable for TempSensor3 {}
 
 // Static dispatch, generic syntax
-fn inventory<T: Measurable + Identifiable>(sensor: &T) {
+fn Inventory<T: Measurable + Identifiable>(sensor: &T) {
     println!("Sensor : {} ({} °C)", sensor.get_id(), sensor.get_temp());
 }
 
@@ -67,6 +67,6 @@ fn main() {
     inventory(&sensor1);
     inventory(&sensor2);
 
-    // let sensor300 = TempSensor3 { temp: 300.0 };
+    // let sensor3 = TempSensor3 { temp: 300.0 };
     // inventory(&sensor3); // ! Does not compile : Identifiable is required by this bound in `inventory`
 }
