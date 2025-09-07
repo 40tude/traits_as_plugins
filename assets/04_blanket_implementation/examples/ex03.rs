@@ -32,7 +32,7 @@ impl Identifiable for TempSensor01 {
 // Does not compile because of Rust's orphan/coherence rules:
 // Display is a foreign trait (defined in std).
 // We are not allowed to implement a foreign trait for a foreign type.
-// Indeed in impl<T> Display for T where T: ..., the target type is a generic “any” type (not a local type that you own) → prohibited.
+// Indeed in impl<T> Display for T where T: ..., the target type is a generic “any” type (not a local type that we own) → prohibited.
 // ! The idiomatic solution is the newtype pattern: you wrap your T in a local type (that you own), then you implement Display for that wrapper. You can then offer a helper to make it easier to use.
 impl<T> std::fmt::Display for T
 where
@@ -47,6 +47,10 @@ fn main() {
     let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
     println!("{}", sensor1);
 }
+
+// Keep in mind:
+//      This works thanks to orphan/coherence rules: we can blanket-implement our trait for “foreign” types, but not a 'foreign' trait for a 'foreign' type.
+//      No overlapping implementations allowed: Rust prevents two possible implementations for the same type (ambiguities).
 
 // println!("{}", sensor100.get_id());
 // Thanks to std::fmt::Display implementation

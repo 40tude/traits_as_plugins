@@ -4,6 +4,8 @@
 // newtype pattern I
 // We print with : println!("{}", AsDisplay(&sensor1));
 
+// https://doc.rust-lang.org/rust-by-example/generics/new_types.html
+
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
 pub trait Measurable {
@@ -39,12 +41,13 @@ impl Identifiable for TempSensor01 {
 // struct AsDisplay<T>( &T ); says: “I contain a borrowed T,” but we didn’t say how long that borrow must live.
 // Hence E0106: missing lifetime specifier and the helpful suggestion to introduce '<a>.
 
-// struct AsDisplay<T: Measurable + Identifiable>(&T);
+// struct AsDisplay<T: Measurable + Identifiable>(&T); // Try it. Does NOT compile
 struct AsDisplay<'a, T: Measurable + Identifiable>(&'a T);
 
 /// Implement Display for the local wrapper, not for T directly.
 /// This is allowed by the orphan rules.
 // '_ : indicates an anonymous lifetime
+// impl<T> Display for AsDisplay<T> // Try it. Does NOT compile
 impl<T> Display for AsDisplay<'_, T>
 where
     T: Measurable + Identifiable,

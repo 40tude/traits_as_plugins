@@ -49,7 +49,7 @@ impl Identifiable for TempSensor02 {
 }
 
 /// Local wrapper (newtype) that you own.
-/// This lets you implement foreign traits (like Display) safely.
+/// This lets us implement foreign traits (like Display) safely.
 struct AsDisplay<'a, T: Measurable + Identifiable>(&'a T);
 
 /// Implement Display for the local wrapper, not for T directly.

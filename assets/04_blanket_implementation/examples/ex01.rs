@@ -36,7 +36,7 @@ struct TempSensor02 {
 
 impl Measurable for TempSensor02 {
     fn get_temp(&self) -> f64 {
-        self.temp
+        self.temp * 9.0 / 5.0 + 32.0
     }
 }
 
@@ -67,15 +67,15 @@ where
 }
 
 fn main() {
-    let sensor1 = TempSensor01 { temp: 100.0, id: "Zoubida".into() };
-    let sensor2 = TempSensor02 { temp: 200.0, id: "Roberta".into() };
+    let sensor1 = TempSensor01 { temp: 25.0, id: "Zoubida".into() };
+    let sensor2 = TempSensor02 { temp: 25.0, id: "Roberta".into() };
 
     sensor1.print();
     sensor2.print();
 
-    // ! Does not compile.
-    // Nimbus2000 does not have the Identifiable nor the Measurable trait => Does not get the Printable trait
     struct Nimbus2000 {}
     let bob = Nimbus2000 {};
-    bob.print();
+    // ! Does not compile.
+    // Nimbus2000 does not have the Identifiable nor the Measurable trait => Does not get the Printable trait
+    // bob.print();
 }
