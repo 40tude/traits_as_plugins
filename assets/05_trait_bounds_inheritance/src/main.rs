@@ -6,7 +6,7 @@
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
 // TempSensor inherits from Display.
-// Any type that wants to implement TempSensor must also implement Display.
+// Any type that wants to implement TempSensor MUST implement Display.
 // The Rust compiler does not imply this automatically, so it is up to us to implement Display on our types in addition to TempSensor.
 #[allow(dead_code)]
 trait TempSensor: Display {
@@ -59,4 +59,9 @@ fn main() {
         // Works because TempSensor requires Display
         println!("{}", sensor);
     }
+
+    // let sensor1 = TempSensor01 { temp: 25.0 };
+    // let sensor2 = TempSensor02 { temp: 25.0 }; // 77°F
+    // println!("{}", sensor1);
+    // println!("{}", sensor2);
 }

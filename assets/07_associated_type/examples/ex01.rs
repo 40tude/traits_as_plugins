@@ -1,5 +1,3 @@
-use std::fmt::{Display, Formatter, Result as FmtResult};
-
 trait UnitLabel {
     const LABEL: &'static str;
 }
@@ -18,9 +16,6 @@ impl UnitLabel for Fahrenheit {
 trait TempSensor {
     type Unit: UnitLabel;
     fn get_temp(&self) -> f64;
-    fn get_unit_label(&self) -> &'static str {
-        Self::Unit::LABEL
-    }
 }
 
 struct TempSensor01 {
@@ -29,39 +24,45 @@ struct TempSensor01 {
 
 impl TempSensor for TempSensor01 {
     type Unit = Celsius;
-
     fn get_temp(&self) -> f64 {
         self.temp
     }
 }
 
 struct TempSensor02 {
-    temp: f64, // Stocké en Celsius mais affiché en Fahrenheit
+    temp: f64,
 }
 
 impl TempSensor for TempSensor02 {
     type Unit = Fahrenheit;
-
     fn get_temp(&self) -> f64 {
-        self.temp * 9.0 / 5.0 + 32.0 // Conversion Celsius → Fahrenheit
+        self.temp * 9.0 / 5.0 + 32.0
     }
 }
 
-impl Display for dyn TempSensor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
-        // Utilisation de la méthode get_unit_label() pour obtenir le label
-        write!(f, "{:.2} {}", self.get_temp(), self.get_unit_label())
+trait Printable {
+    fn print(&self);
+}
+
+impl<T> Printable for T
+where
+    T: TempSensor,
+    <T as TempSensor>::Unit: UnitLabel,
+{
+    fn print(&self) {
+        let unit_label = <<T as TempSensor>::Unit as UnitLabel>::LABEL;
+        println!("Current temp = {} {}", self.get_temp(), unit_label);
     }
 }
 
 fn main() {
-    let sensors: Vec<Box<dyn TempSensor>> = vec![
+    let sensors: Vec<Box<dyn Printable>> = vec![
         Box::new(TempSensor01 { temp: 25.0 }),
-        Box::new(TempSensor02 { temp: 25.0 }), // 25°C → 77°F
+        Box::new(TempSensor02 { temp: 25.0 }), // 77°F
         Box::new(TempSensor01 { temp: 42.0 }),
     ];
 
     for sensor in sensors {
-        println!("{}", sensor);
+        sensor.print();
     }
 }
