@@ -1,29 +1,29 @@
-// Read : https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#:~:text=The%20difference%20is%20that%20when,we%20want%20to%20use
-
 trait TempSensor<T> {
     fn get_temp(&self) -> T;
 }
 
 // outputs temperature in Celsius as f64
-struct TempSensor01 {}
-
-// Implement the trait for a Celsius-reading thermocouple
-impl TempSensor<f64> for TempSensor01 {
-    fn get_temp(&self) -> f64 {
-        let temp: f64 = rand::random_range(10.0..35.0);
-        temp
-    }
+struct TemSensor01 {
+    temp: f64,
 }
 
 // outputs temperature in Fahrenheit as an integer
-struct TempSensor02 {}
+struct TempSensor02 {
+    temp: i16,
+}
+
+// Implement the trait for a Celsius-reading thermocouple
+impl TempSensor<f64> for TemSensor01 {
+    fn get_temp(&self) -> f64 {
+        self.temp
+    }
+}
 
 // Implement the trait for a Fahrenheit-reading thermocouple
 impl TempSensor<i16> for TempSensor02 {
     fn get_temp(&self) -> i16 {
         // Return a Fahrenheit reading in tenths of a degree (752 means 75.2°F).
-        let temp: i16 = rand::random_range(500..950);
-        temp
+        self.temp
     }
 }
 
@@ -55,8 +55,8 @@ where
 }
 
 fn main() {
-    let sensor1 = TempSensor01 {};
-    let sensor2 = TempSensor02 {};
+    let sensor1 = TemSensor01 { temp: 25.0 };
+    let sensor2 = TempSensor02 { temp: 777 }; // 77.7 °F
 
     log_temperature(&sensor1);
     log_temperature(&sensor2);

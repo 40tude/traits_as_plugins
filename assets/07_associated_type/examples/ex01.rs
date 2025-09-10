@@ -1,68 +1,53 @@
-trait UnitLabel {
-    const LABEL: &'static str;
-}
-
-struct Celsius;
-struct Fahrenheit;
-
-impl UnitLabel for Celsius {
-    const LABEL: &'static str = "°C";
-}
-
-impl UnitLabel for Fahrenheit {
-    const LABEL: &'static str = "°F";
-}
-
+// Trait with a generic type parameter for the output
 trait TempSensor {
-    type Unit: UnitLabel;
-    fn get_temp(&self) -> f64;
+    type Output: std::fmt::Display; // associated type for the temp value
+    fn get_temp(&self) -> Self::Output;
 }
 
-struct TempSensor01 {
-    temp: f64,
-}
+// outputs temperature in Celsius as f64
+struct TempSensor01 {}
 
+// Implement the trait for a Celsius-reading thermocouple
 impl TempSensor for TempSensor01 {
-    type Unit = Celsius;
-    fn get_temp(&self) -> f64 {
-        self.temp
+    type Output = f64; // returns f64
+    fn get_temp(&self) -> Self::Output {
+        let temp: Self::Output = rand::random_range(10.0..35.0);
+        temp
     }
 }
 
-struct TempSensor02 {
-    temp: f64,
-}
+// outputs temperature in Fahrenheit as an integer
+struct TempSensor02 {}
 
+// Implement the trait for a Fahrenheit-reading thermocouple
 impl TempSensor for TempSensor02 {
-    type Unit = Fahrenheit;
-    fn get_temp(&self) -> f64 {
-        self.temp * 9.0 / 5.0 + 32.0
+    type Output = i16; // returns i16
+
+    fn get_temp(&self) -> Self::Output {
+        // Return a Fahrenheit reading in tenths of a degree (752 means 75.2°F).
+        let temp: Self::Output = rand::random_range(500..950);
+        temp
     }
 }
 
-trait Printable {
-    fn print(&self);
-}
-
-impl<T> Printable for T
-where
-    T: TempSensor,
-    <T as TempSensor>::Unit: UnitLabel,
-{
-    fn print(&self) {
-        let unit_label = <<T as TempSensor>::Unit as UnitLabel>::LABEL;
-        println!("Current temp = {} {}", self.get_temp(), unit_label);
-    }
+fn log_temperature<S: TempSensor>(sensor: &S) {
+    let reading: S::Output = sensor.get_temp();
+    println!("Temperature reading: {}", reading);
 }
 
 fn main() {
-    let sensors: Vec<Box<dyn Printable>> = vec![
-        Box::new(TempSensor01 { temp: 25.0 }),
-        Box::new(TempSensor02 { temp: 25.0 }), // 77°F
-        Box::new(TempSensor01 { temp: 42.0 }),
-    ];
+    let sensor1 = TempSensor01 {};
+    let sensor2 = TempSensor02 {};
 
-    for sensor in sensors {
-        sensor.print();
-    }
+    log_temperature(&sensor1);
+    log_temperature(&sensor2);
 }
+
+// Similar but using supertrait
+// trait TempSensor
+// where
+//     Self::Output: std::fmt::Display,
+// {
+//     type Output;
+//     fn get_temp(&self) -> Self::Output;
+// }

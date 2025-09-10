@@ -1,6 +1,8 @@
 // ex03
 // cargo run --example ex03
 
+// Read https://doc.rust-lang.org/reference/items/implementations.html#:~:text=Orphan%20rules,-%5Bitems.impl.&text=The%20orphan%20rule%20states%20that,is%20key%20to%20ensuring%20coherence.
+
 // ! Does not compile
 
 pub trait Measurable {

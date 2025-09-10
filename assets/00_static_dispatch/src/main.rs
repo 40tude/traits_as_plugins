@@ -4,9 +4,9 @@
 // cargo run
 
 // static dispatch, everything is known at compile time
-// Read
-// https://doc.rust-lang.org/book/ch10-02-traits.html#traits-defining-shared-behavior
-// https://medium.com/@adamszpilewicz/what-are-traits-in-rust-a-beginner-friendly-guide-with-real-world-examples-710c9b91d43c
+// Read :
+//      https://doc.rust-lang.org/book/ch10-02-traits.html#traits-defining-shared-behavior
+//      https://medium.com/@adamszpilewicz/what-are-traits-in-rust-a-beginner-friendly-guide-with-real-world-examples-710c9b91d43c
 
 pub trait Measurable {
     fn get_temp(&self) -> f64;
