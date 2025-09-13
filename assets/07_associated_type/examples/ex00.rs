@@ -1,3 +1,4 @@
+// cargo add rand
 // Read : https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#:~:text=The%20difference%20is%20that%20when,we%20want%20to%20use
 
 trait TempSensor<T> {

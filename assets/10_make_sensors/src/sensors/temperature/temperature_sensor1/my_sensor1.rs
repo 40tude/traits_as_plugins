@@ -1,5 +1,4 @@
 // my_sensor1.rs
-
 use crate::sensors::temperature::temperature_sensor::TempSensor;
 pub struct TempSensor01;
 
