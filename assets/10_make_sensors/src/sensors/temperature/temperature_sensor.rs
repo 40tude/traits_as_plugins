@@ -1,17 +1,9 @@
-// Send : the type can be sent between threads
-// Sync : the type can be shared between threads via reference (&)
-
-// Not thread safe. Ok here
-// pub trait TempSensor {
-
-// Thread safe (overkill here?)
-
-// temp_sensor.rs
+// temperature_sensor.rs
 use crate::sensors::temperature::temperature_sensor1::my_sensor1;
 use crate::sensors::temperature::temperature_sensor2::your_sensor2;
 
-pub trait TempSensor: Send + Sync {
-    fn get_temp(&self) -> f64; // ! It is &self NOT self
+pub trait TempSensor {
+    fn get_temp(&self) -> f64;
 }
 
 pub fn make_sensor(kind: usize) -> Box<dyn TempSensor> {
@@ -25,3 +17,9 @@ pub fn make_sensor(kind: usize) -> Box<dyn TempSensor> {
         }
     }
 }
+
+// Send : the type can be sent between threads
+// Sync : the type can be shared between threads via reference (&)
+// We would have to write
+// pub trait TempSensor: Send + Sync {
+// Here we are single threaded so is not needed

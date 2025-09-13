@@ -1,1 +1,3 @@
-pub mod input_sensors;
+// lib.rs
+pub mod sensors;
+

@@ -4,7 +4,6 @@ use crate::sensors::temperature::temperature_sensor::TempSensor;
 pub struct TempSensor01;
 
 impl TempSensor for TempSensor01 {
-    // ! It is &self NOT self
     fn get_temp(&self) -> f64 {
         142.0
     }

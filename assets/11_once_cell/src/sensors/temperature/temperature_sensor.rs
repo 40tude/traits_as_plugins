@@ -1,6 +1,10 @@
-// pub mod temp_sensor;
-pub mod temp_sensor1;
-pub mod temp_sensor2;
+// temperature_sensor.rs
+use crate::sensors::temperature::temperature_sensor1::my_sensor1;
+use crate::sensors::temperature::temperature_sensor2::your_sensor2;
+
+// pub mod temp_sensors;
+// use crate::input_sensors;
+// use crate::sensors::temperature::temperature_sensor;
 
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
@@ -26,4 +30,14 @@ pub fn make_sensor(name: &str) -> Option<Box<dyn TempSensor>> {
 
 pub trait TempSensor: Send + Sync {
     fn get_temp(&self) -> f64;
+}
+
+/// Called by binaries (main.rs, examples, tests...) to register all sensors
+pub fn init_sensors() {
+    // Explicitly register each available sensor
+    //
+    // input_sensors::temp_sensors::temp_sensor1::my_sensor1::register();
+    // input_sensors::temp_sensors::temp_sensor2::your_sensor2::register();
+    my_sensor1::register();
+    your_sensor2::register();
 }

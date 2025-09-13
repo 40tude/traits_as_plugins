@@ -1,5 +1,5 @@
-use crate::input_sensors::temp_sensors::TempSensor;
-use crate::input_sensors::temp_sensors::register_sensor;
+use crate::sensors::temperature::temperature_sensor::register_sensor;
+use crate::sensors::temperature::temperature_sensor::TempSensor;
 
 pub struct TempSensor01;
 
