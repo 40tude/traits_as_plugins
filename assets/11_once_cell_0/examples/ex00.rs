@@ -1,8 +1,9 @@
 // ex_00
 // cargo run --example ex00
 
-use demo_registry_0::sensors;
-use demo_registry_0::sensors::temperature::temperature_sensor;
+// use demo_registry_0::sensors;
+// use demo_registry_0::sensors::temperature::temperature_sensor;
+use demo_registry_0::sensors::{self, temperature::temperature_sensor};
 
 fn main() {
     // Step 1 — Register all available sensors

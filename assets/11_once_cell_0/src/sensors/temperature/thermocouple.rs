@@ -1,3 +1,4 @@
+// thermocouple.rs
 pub mod thermocouple_128;
 
 // Called from temperature::register()

@@ -3,8 +3,7 @@
 // cargo add rand
 // cargo add once_cell
 
-use demo_registry_0::sensors;
-use demo_registry_0::sensors::temperature::temperature_sensor;
+use demo_registry_0::sensors::{self, temperature::temperature_sensor};
 
 fn main() {
     // Register all sensors available

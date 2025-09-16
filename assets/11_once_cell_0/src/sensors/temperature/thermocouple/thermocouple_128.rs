@@ -1,8 +1,9 @@
+// thermocouple_128.rs
 use crate::sensors::temperature::temperature_sensor::{self, TemperatureSensor};
 
-pub struct Thermocouple; // camel case => no _
+pub struct Thermocouple128; // camel case => no _
 
-impl TemperatureSensor for Thermocouple {
+impl TemperatureSensor for Thermocouple128 {
     fn get_temp(&self) -> f64 {
         let temp: f64 = rand::random_range(0.0..128.0);
         temp
@@ -18,5 +19,5 @@ impl TemperatureSensor for Thermocouple {
 //      pub static SENSOR_REGISTRY: Lazy<Mutex<HashMap<&'static str, Constructor>>> = ...
 //      The registry is a HashMap inside a Mutex (thread-safe).
 pub fn register() {
-    temperature_sensor::register_sensor("Thermocouple_type_128", || Box::new(Thermocouple));
+    temperature_sensor::register_sensor("Thermocouple_type_128", || Box::new(Thermocouple128));
 }

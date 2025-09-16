@@ -18,8 +18,9 @@ pub fn make_sensor(kind: usize) -> Box<dyn TempSensor> {
     }
 }
 
+// Multi threaded ?
 // Send : the type can be sent between threads
 // Sync : the type can be shared between threads via reference (&)
 // We would have to write
-// pub trait TempSensor: Send + Sync {
-// Here we are single threaded so is not needed
+// pub trait TempSensor: Send + Sync {...}
+// Here we are single threaded so this is not needed
