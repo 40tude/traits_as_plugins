@@ -1,8 +1,8 @@
-// temperature_sensor.rs (use mutexes)
+// temperature_sensor.rs.rwlock
 
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
-use std::sync::Mutex;
+use std::sync::RwLock;
 
 // If we plan to use sensors across threads, consider:
 //      pub trait TemperatureSensor: Send + Sync {
@@ -16,12 +16,12 @@ pub trait TemperatureSensor {
 type Constructor = fn() -> Box<dyn TemperatureSensor>;
 
 // Global registry of sensor constructors
-pub static TEMPERATURE_SENSOR_REGISTRY: Lazy<Mutex<HashMap<&'static str, Constructor>>> = Lazy::new(|| Mutex::new(HashMap::new()));
+pub static TEMPERATURE_SENSOR_REGISTRY: Lazy<RwLock<HashMap<&'static str, Constructor>>> = Lazy::new(|| RwLock::new(HashMap::new()));
 
 // Called by sensors (see thermocouple_128.rs for example)
 // Registers a sensor constructor (e.g. `Box::new(Thermocouple)`) with a given name "Bob"
 pub fn register_sensor(name: &'static str, constructor: Constructor) {
-    let mut map = TEMPERATURE_SENSOR_REGISTRY.lock().expect("TEMPERATURE_SENSOR_REGISTRY mutex poisoned");
+    let mut map = TEMPERATURE_SENSOR_REGISTRY.write().expect("registry mutex poisoned"); // .write() acquire write lock
     map.insert(name, constructor);
 }
 
@@ -31,6 +31,6 @@ pub fn register_sensor(name: &'static str, constructor: Constructor) {
 // If multi treaded consider
 //      pub fn make_sensor(name: &str) -> Option<Box<dyn TemperatureSensor + Send + Sync>> {
 pub fn make_sensor(name: &str) -> Option<Box<dyn TemperatureSensor>> {
-    let map = TEMPERATURE_SENSOR_REGISTRY.lock().expect("TEMPERATURE_SENSOR_REGISTRY mutex poisoned");
+    let map = TEMPERATURE_SENSOR_REGISTRY.read().expect("TEMPERATURE_SENSOR_REGISTRY mutex poisoned"); // .read() acquire a read lock
     map.get(name).map(|ctor| ctor())
 }

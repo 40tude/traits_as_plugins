@@ -1,11 +1,11 @@
 use crate::actuators::electric::electric_actuator;
 use crate::actuators::electric::electric_actuator::ElectricActuator;
 
-pub struct ServoMotor {
+pub struct ServoMoto01 {
     state: bool,
 }
 
-impl ElectricActuator for ServoMotor {
+impl ElectricActuator for ServoMoto01 {
     fn set_state(&mut self, new_state: bool) {
         self.state = new_state;
     }
@@ -26,5 +26,5 @@ impl ElectricActuator for ServoMotor {
 // The value is a function pointer that, when called, returns Box<dyn TempSensor>.
 pub fn register() {
     // See input_sensors/mod.rs
-    electric_actuator::register_actuator("Servo_Motor_type_01", || Box::new(ServoMotor { state: false }));
+    electric_actuator::register_actuator("Servo_Motor_type_01", || Box::new(ServoMoto01 { state: false }));
 }

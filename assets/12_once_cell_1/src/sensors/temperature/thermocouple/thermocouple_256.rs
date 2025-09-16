@@ -1,9 +1,9 @@
 use crate::sensors::temperature::temperature_sensor;
 use crate::sensors::temperature::temperature_sensor::TemperatureSensor;
 
-pub struct Thermocouple; // camel case => no _
+pub struct Thermocouple256; // camel case => no _
 
-impl TemperatureSensor for Thermocouple {
+impl TemperatureSensor for Thermocouple256 {
     fn get_temp(&self) -> f64 {
         let temp: f64 = rand::random_range(128.0..256.0);
         temp
@@ -21,5 +21,5 @@ impl TemperatureSensor for Thermocouple {
 // The value is a function pointer that, when called, returns Box<dyn TempSensor>.
 pub fn register() {
     // See input_sensors/mod.rs
-    temperature_sensor::register_sensor("Thermocouple_type_256", || Box::new(Thermocouple));
+    temperature_sensor::register_sensor("Thermocouple_type_256", || Box::new(Thermocouple256));
 }

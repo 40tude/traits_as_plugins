@@ -1,11 +1,11 @@
 use crate::actuators::electric::electric_actuator;
 use crate::actuators::electric::electric_actuator::ElectricActuator;
 
-pub struct Solenoid {
+pub struct Solenoid101 {
     state: bool,
 }
 
-impl ElectricActuator for Solenoid {
+impl ElectricActuator for Solenoid101 {
     fn set_state(&mut self, new_state: bool) {
         self.state = new_state;
     }
@@ -26,5 +26,5 @@ impl ElectricActuator for Solenoid {
 // The value is a function pointer that, when called, returns Box<dyn TempSensor>.
 pub fn register() {
     // See input_sensors/mod.rs
-    electric_actuator::register_actuator("Solenoid_type_101", || Box::new(Solenoid { state: false }));
+    electric_actuator::register_actuator("Solenoid_type_101", || Box::new(Solenoid101 { state: false }));
 }

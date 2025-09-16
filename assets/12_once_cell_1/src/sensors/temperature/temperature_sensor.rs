@@ -4,7 +4,6 @@ use once_cell::sync::Lazy;
 use std::collections::HashMap;
 use std::sync::Mutex;
 
-// pub trait TempSensor: Send + Sync {
 pub trait TemperatureSensor {
     fn get_temp(&self) -> f64;
 }
@@ -15,13 +14,14 @@ type Constructor = fn() -> Box<dyn TemperatureSensor>;
 // Global registry of sensor constructors
 pub static TEMPERATURE_SENSOR_REGISTRY: Lazy<Mutex<HashMap<&'static str, Constructor>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 
-// Called by sensors (see my_sensor1.rs for example)
-// Registers a sensor constructor with a given name
+// Called by sensors
 pub fn register_sensor(name: &'static str, constructor: Constructor) {
-    TEMPERATURE_SENSOR_REGISTRY.lock().unwrap().insert(name, constructor);
+    let mut map = TEMPERATURE_SENSOR_REGISTRY.lock().expect("TEMPERATURE_SENSOR_REGISTRY mutex poisoned");
+    map.insert(name, constructor);
 }
 
 // Called by binaries (main.rs, examples, tests...) to creates a sensor by name
 pub fn make_sensor(name: &str) -> Option<Box<dyn TemperatureSensor>> {
-    TEMPERATURE_SENSOR_REGISTRY.lock().unwrap().get(name).map(|ctor| ctor())
+    let map = TEMPERATURE_SENSOR_REGISTRY.lock().expect("TEMPERATURE_SENSOR_REGISTRY mutex poisoned");
+    map.get(name).map(|ctor| ctor())
 }

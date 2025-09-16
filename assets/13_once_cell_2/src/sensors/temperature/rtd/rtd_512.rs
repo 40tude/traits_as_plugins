@@ -1,9 +1,9 @@
-use crate::sensors::temperature::temperature_sensor::TemperatureSensor;
 use crate::sensors::temperature::temperature_sensor;
+use crate::sensors::temperature::temperature_sensor::TemperatureSensor;
 
-pub struct Rtd; // camel case => no _
+pub struct Rtd512; // camel case => no _
 
-impl TemperatureSensor for Rtd {
+impl TemperatureSensor for Rtd512 {
     fn get_temp(&self) -> f64 {
         let temp: f64 = rand::random_range(256.0..512.0);
         temp
@@ -12,5 +12,5 @@ impl TemperatureSensor for Rtd {
 
 /// Explicit registration function, called from lib.rs
 pub fn register() {
-    temperature_sensor::register_sensor("Rtd_type_512", || Box::new(Rtd));
+    temperature_sensor::register_sensor("Rtd_type_512", || Box::new(Rtd512));
 }

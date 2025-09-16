@@ -1,9 +1,9 @@
 use crate::sensors::ph::ph_sensor;
 use crate::sensors::ph::ph_sensor::PhSensor;
 
-pub struct Probe; // camel case => no _
+pub struct Probe2048; // camel case => no _
 
-impl PhSensor for Probe {
+impl PhSensor for Probe2048 {
     fn get_ph(&self) -> f64 {
         let ph: f64 = rand::random_range(7.0..8.0);
         ph
@@ -21,5 +21,5 @@ impl PhSensor for Probe {
 // The value is a function pointer that, when called, returns Box<dyn TempSensor>.
 pub fn register() {
     // See input_sensors/mod.rs
-    ph_sensor::register_sensor("Probe_type_2048", || Box::new(Probe));
+    ph_sensor::register_sensor("Probe_type_2048", || Box::new(Probe2048));
 }
