@@ -1,4 +1,4 @@
-
+The associated [blog post](https://www.40tude.fr/docs/06_programmation/rust/015_traits/traits_00.html).
 
 
 ---
