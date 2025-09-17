@@ -1,5 +1,5 @@
-use crate::actuators::electric::electric_actuator;
-use crate::actuators::electric::electric_actuator::ElectricActuator;
+// solenoid_101.rs
+use crate::actuators::electric::electric_actuator::{self, ElectricActuator};
 
 pub struct Solenoid101 {
     state: bool,

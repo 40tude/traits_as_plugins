@@ -1,6 +1,5 @@
-// use crate::input_sensors::{register_sensor, temp_sensor::TempSensor};
-use crate::sensors::ph::ph_sensor;
-use crate::sensors::ph::ph_sensor::PhSensor;
+// isfet_1024.rs
+use crate::sensors::ph::ph_sensor::{self, PhSensor};
 
 pub struct IsFET1024; // camel case => no _
 

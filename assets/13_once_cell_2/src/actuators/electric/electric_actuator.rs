@@ -1,4 +1,4 @@
-// temperature_sensor.rs
+// electric_actuator.rs
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
 use std::sync::Mutex;

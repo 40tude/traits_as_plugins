@@ -1,5 +1,5 @@
-use crate::sensors::ph::ph_sensor;
-use crate::sensors::ph::ph_sensor::PhSensor;
+// probe_2048.rs
+use crate::sensors::ph::ph_sensor::{self, PhSensor};
 
 pub struct Probe2048; // camel case => no _
 

@@ -1,5 +1,5 @@
-use crate::actuators::electric::electric_actuator;
-use crate::actuators::electric::electric_actuator::ElectricActuator;
+// servo_motor_01.rs
+use crate::actuators::electric::electric_actuator::{self, ElectricActuator};
 
 pub struct ServoMoto01 {
     state: bool,

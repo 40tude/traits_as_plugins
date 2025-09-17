@@ -1,5 +1,5 @@
-use crate::sensors::temperature::temperature_sensor;
-use crate::sensors::temperature::temperature_sensor::TemperatureSensor;
+// thermocouple_256.rs
+use crate::sensors::temperature::temperature_sensor::{self, TemperatureSensor};
 
 pub struct Thermocouple256; // camel case => no _
 

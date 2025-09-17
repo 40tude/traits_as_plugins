@@ -1,3 +1,4 @@
+// rtd.rs
 pub mod rtd_512;
 
 // Called from temperature::register()

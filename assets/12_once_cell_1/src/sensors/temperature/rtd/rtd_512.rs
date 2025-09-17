@@ -1,5 +1,5 @@
-use crate::sensors::temperature::temperature_sensor;
-use crate::sensors::temperature::temperature_sensor::TemperatureSensor;
+// rtd_512.rs
+use crate::sensors::temperature::temperature_sensor::{self, TemperatureSensor};
 
 pub struct Rtd512; // camel case => no _
 
