@@ -1,0 +1,35 @@
+//  sensor_registry.rs Mutex
+// use once_cell::sync::Lazy;
+use std::collections::HashMap;
+use std::sync::Mutex;
+
+// Generic registry for any trait object `dyn T`.
+// NOTE: `T` is unsized because trait objects are unsized.
+// We store function pointers that construct `Box<dyn T>`.
+pub struct Registry<T: ?Sized + 'static> {
+    map: Mutex<HashMap<&'static str, fn() -> Box<T>>>,
+}
+
+impl<T: ?Sized + 'static> Registry<T> {
+    // Create an empty registry.
+    pub fn new() -> Self {
+        Self { map: Mutex::new(HashMap::new()) }
+    }
+
+    // Register a named constructor.
+    pub fn register_sensor(&self, name: &'static str, ctor: fn() -> Box<T>) {
+        let mut map = self.map.lock().expect("REGISTRY mutex poisoned");
+        map.insert(name, ctor);
+    }
+
+    // Build an instance by name.
+    pub fn make_sensor(&self, name: &str) -> Option<Box<T>> {
+        let map = self.map.lock().expect("REGISTRY mutex poisoned");
+        map.get(name).map(|ctor| ctor())
+    }
+}
+
+// Inspect available keys (handy for debugging / listing).
+// pub fn keys(&self) -> Vec<&'static str> {
+//     self.map.lock().unwrap().keys().copied().collect()
+// }
