@@ -9,19 +9,18 @@ pub trait ElectricActuator {
     fn get_state(&self) -> bool;
 }
 
-// Type alias for a constructor function returning a boxed sensor
+// Type alias for a constructor function returning a boxed actuator
 type Constructor = fn() -> Box<dyn ElectricActuator>;
 
-// Global registry of sensor constructors
+// Global registry of electrical actuators
 pub static ELEC_ACTUATOR_REGISTRY: Lazy<Mutex<HashMap<&'static str, Constructor>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 
-// Called by sensors (see my_sensor1.rs for example)
-// Registers a sensor constructor with a given name
+// Called by actuators
 pub fn register_actuator(name: &'static str, constructor: Constructor) {
     ELEC_ACTUATOR_REGISTRY.lock().unwrap().insert(name, constructor);
 }
 
-// Called by binaries (main.rs, examples, tests...) to creates a sensor by name
+// Called by binaries (main.rs, examples, tests...) to creates an actuator by name
 pub fn make_actuator(name: &str) -> Option<Box<dyn ElectricActuator>> {
     ELEC_ACTUATOR_REGISTRY.lock().unwrap().get(name).map(|ctor| ctor())
 }
