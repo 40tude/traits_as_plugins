@@ -1,11 +1,7 @@
 //  sensor_registry.rs Mutex
-// use once_cell::sync::Lazy;
 use std::collections::HashMap;
 use std::sync::Mutex;
 
-// Generic registry for any trait object `dyn T`.
-// NOTE: `T` is unsized because trait objects are unsized.
-// We store function pointers that construct `Box<dyn T>`.
 pub struct Registry<T: ?Sized + 'static> {
     map: Mutex<HashMap<&'static str, fn() -> Box<T>>>,
 }

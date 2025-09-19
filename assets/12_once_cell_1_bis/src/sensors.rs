@@ -13,9 +13,8 @@ use once_cell::sync::Lazy;
 // One global registry per kind of sensor (temperature, pH...)
 // Multi thread is supported with + Send + Sync
 // See temperature_sensors.rs and ph_sensors.rs
-pub static TEMPERATURE_SENSOR_REGISTRY: Lazy<Registry<dyn TemperatureSensor + Send + Sync>> = Lazy::new(Registry::new);
-
-pub static PH_SENSOR_REGISTRY: Lazy<Registry<dyn PhSensor + Send + Sync>> = Lazy::new(|| Registry::new());
+pub static TEMPERATURE_SENSOR_REGISTRY: Lazy<Registry<dyn TemperatureSensor + Send + Sync>> = Lazy::new(Registry::default);
+pub static PH_SENSOR_REGISTRY: Lazy<Registry<dyn PhSensor + Send + Sync>> = Lazy::new(Registry::default);
 
 pub fn register() {
     temperature::register();
